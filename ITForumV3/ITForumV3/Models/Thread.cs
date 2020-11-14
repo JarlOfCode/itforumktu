@@ -8,14 +8,12 @@ namespace ITForumV3.Models
 {
     public class Thread
     {
-        [Column("ThreadId")]
+        [Column("threadId")]
         public long Id { get; set; }
+        [Column("threadName")]
         public string ThreadName { get; set; }
+        [Column("creationDate")]
         public DateTime ThreadCreation { get; set; }
-        public string OP { get; set; }
-
-
-
-
+        //public string OP { get; set; }
     }
 }

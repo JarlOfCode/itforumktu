@@ -165,5 +165,7 @@ C:\VS\ITForumV3\ITForumV3\obj\Debug\netcoreapp3.1\Razor\Views\HomePage.cshtml.g.
 C:\VS\ITForumV3\ITForumV3\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\VS\ITForumV3\ITForumV3\bin\Debug\netcoreapp3.1\AutoMapper.dll
 C:\VS\ITForumV3\ITForumV3\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\VS\ITForumV3\ITForumV3\bin\Debug\netcoreapp3.1\Npgsql.dll
+C:\VS\ITForumV3\ITForumV3\bin\Debug\netcoreapp3.1\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 C:\VS\ITForumV3\ITForumV3\obj\Debug\netcoreapp3.1\ITForumV3.csproj.CoreCompileInputs.cache
 C:\VS\ITForumV3\ITForumV3\obj\Debug\netcoreapp3.1\ITForumV3.MvcApplicationPartsAssemblyInfo.cache

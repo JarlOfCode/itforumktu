@@ -25,14 +25,14 @@ namespace ITForumV3.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Thread>>> GetThreadItems()
         {
-            return await _context.ThreadItems.ToListAsync();
+            return await _context.thread.ToListAsync();
         }
 
         // GET: api/Threads/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Thread>> GetThread(long id)
         {
-            var thread = await _context.ThreadItems.FindAsync(id);
+            var thread = await _context.thread.FindAsync(id);
 
             if (thread == null)
             {
@@ -46,7 +46,7 @@ namespace ITForumV3.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Thread>> GetThreadPosts(long id)
         {
-            var thread = await _context.ThreadItems.FindAsync(id);
+            var thread = await _context.thread.FindAsync(id);
 
             if (thread == null)
             {
@@ -94,7 +94,7 @@ namespace ITForumV3.Controllers
         [HttpPost]
         public async Task<ActionResult<Thread>> PostThread(Thread thread)
         {
-            _context.ThreadItems.Add(thread);
+            _context.thread.Add(thread);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetThread", new { id = thread.Id }, thread);
@@ -104,13 +104,13 @@ namespace ITForumV3.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Thread>> DeleteThread(long id)
         {
-            var thread = await _context.ThreadItems.FindAsync(id);
+            var thread = await _context.thread.FindAsync(id);
             if (thread == null)
             {
                 return NotFound();
             }
 
-            _context.ThreadItems.Remove(thread);
+            _context.thread.Remove(thread);
             await _context.SaveChangesAsync();
 
             return thread;
@@ -118,7 +118,7 @@ namespace ITForumV3.Controllers
 
         private bool ThreadExists(long id)
         {
-            return _context.ThreadItems.Any(e => e.Id == id);
+            return _context.thread.Any(e => e.Id == id);
         }
     }
 }

@@ -11,10 +11,16 @@ namespace ITForumV3.Models
     {
         [Column("UserId")]
         public long Id { get; set; }
+        [Column("userName")]
         public string UserName { get; set; }
+        [Column("passWord")]
         public string PassWord { get; set; }
-        public string AccPriveleges { get; set; }
+        [Column("role")]
+        public string Role { get; set; }
+        [Column("postCount")]
         public int PostCount { get; set; }
+        //[Column("image")]
+        //public Image Image { get; }
 
         //public Image
 

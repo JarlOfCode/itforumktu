@@ -12,6 +12,6 @@ namespace ITForumV3.Models
         {
 
         }
-        public DbSet<User> UserItems { get; set; }
+        public DbSet<User> user { get; set; }
     }
 }

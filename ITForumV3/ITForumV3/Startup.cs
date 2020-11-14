@@ -30,13 +30,18 @@ namespace ITForumV3
         public void ConfigureServices(IServiceCollection services)
         {
             
-            services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase("UserList"));
-            services.AddDbContext<PostContext>(opt => opt.UseInMemoryDatabase("PostList"));
-            services.AddDbContext<ThreadContext>(opt => opt.UseInMemoryDatabase("ThreadList"));
+            //services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase("UserList"));
+            //services.AddDbContext<PostContext>(opt => opt.UseInMemoryDatabase("PostList"));
+            //services.AddDbContext<ThreadContext>(opt => opt.UseInMemoryDatabase("ThreadList"));
             services.AddControllers();
             services.AddMvc();
 
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddEntityFrameworkNpgsql().AddDbContext<PostContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
+            services.AddEntityFrameworkNpgsql().AddDbContext<UserContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
+            services.AddEntityFrameworkNpgsql().AddDbContext<ThreadContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

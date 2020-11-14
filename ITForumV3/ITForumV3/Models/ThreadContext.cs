@@ -12,6 +12,6 @@ namespace ITForumV3.Models
         {
 
         }
-        public DbSet<Thread> ThreadItems { get; set; }
+        public DbSet<Thread> thread { get; set; }
     }
 }

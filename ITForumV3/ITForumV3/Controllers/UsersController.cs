@@ -24,7 +24,7 @@ namespace ITForumV3.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUserItems()
         {
-            return await _context.UserItems.ToListAsync();
+            return await _context.user.ToListAsync();
         }
 
         // GET: api/Users/5
@@ -33,7 +33,7 @@ namespace ITForumV3.Controllers
         {
 
 
-            var user = await _context.UserItems.FindAsync(id);
+            var user = await _context.user.FindAsync(id);
 
             if (user == null)
             {
@@ -81,7 +81,7 @@ namespace ITForumV3.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-            _context.UserItems.Add(user);
+            _context.user.Add(user);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
@@ -91,13 +91,13 @@ namespace ITForumV3.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> DeleteUser(long id)
         {
-            var user = await _context.UserItems.FindAsync(id);
+            var user = await _context.user.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            _context.UserItems.Remove(user);
+            _context.user.Remove(user);
             await _context.SaveChangesAsync();
 
             return user;
@@ -105,7 +105,7 @@ namespace ITForumV3.Controllers
 
         private bool UserExists(long id)
         {
-            return _context.UserItems.Any(e => e.Id == id);
+            return _context.user.Any(e => e.Id == id);
         }
     }
 }

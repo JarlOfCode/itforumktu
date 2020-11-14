@@ -12,6 +12,6 @@ namespace ITForumV3.Models
         {
 
         }
-        public DbSet<Post> PostItems { get; set; }
+        public DbSet<Post> post { get; set; }
     }
 }

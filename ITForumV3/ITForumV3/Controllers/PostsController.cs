@@ -25,14 +25,14 @@ namespace ITForumV3.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Post>>> GetPostItems([FromRoute] int ThreadId)
         {
-            return await _context.PostItems.Where(e => e.fk_thread == ThreadId).ToListAsync();
+            return await _context.post.Where(e => e.fk_thread == ThreadId).ToListAsync();
         }
 
         // GET: api/Posts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPost(long id)
         {
-            var post = await _context.PostItems.FindAsync(id);
+            var post = await _context.post.FindAsync(id);
 
             if (post == null)
             {
@@ -80,7 +80,7 @@ namespace ITForumV3.Controllers
         [HttpPost]
         public async Task<ActionResult<Post>> PostPost(Post post)
         {
-            _context.PostItems.Add(post);
+            _context.post.Add(post);
             await _context.SaveChangesAsync();
 
             //return CreatedAtAction("GetPost", new { id = post.Id }, post);
@@ -91,13 +91,13 @@ namespace ITForumV3.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Post>> DeletePost(long id)
         {
-            var post = await _context.PostItems.FindAsync(id);
+            var post = await _context.post.FindAsync(id);
             if (post == null)
             {
                 return NotFound();
             }
 
-            _context.PostItems.Remove(post);
+            _context.post.Remove(post);
             await _context.SaveChangesAsync();
 
             return post;
@@ -105,7 +105,7 @@ namespace ITForumV3.Controllers
 
         private bool PostExists(long id)
         {
-            return _context.PostItems.Any(e => e.Id == id);
+            return _context.post.Any(e => e.Id == id);
         }
     }
 }
