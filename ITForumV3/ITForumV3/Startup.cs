@@ -13,6 +13,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using ITForumV3.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 using AutoMapper;
 
 namespace ITForumV3
@@ -35,12 +38,41 @@ namespace ITForumV3
             //services.AddDbContext<ThreadContext>(opt => opt.UseInMemoryDatabase("ThreadList"));
             services.AddControllers();
             services.AddMvc();
-
+            services.AddHttpContextAccessor();
+            services.AddSingleton<Microsoft.AspNetCore.Http.IHttpContextAccessor, Microsoft.AspNetCore.Http.HttpContextAccessor>();
             services.AddAutoMapper(typeof(Startup));
 
             services.AddEntityFrameworkNpgsql().AddDbContext<PostContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
             services.AddEntityFrameworkNpgsql().AddDbContext<UserContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
             services.AddEntityFrameworkNpgsql().AddDbContext<ThreadContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
+
+            services.AddAuthentication("OAuth")
+                .AddJwtBearer("OAuth", config =>
+                {
+                    var secretBytes = Encoding.UTF8.GetBytes(Constants.Secret);
+                    var key = new SymmetricSecurityKey(secretBytes);
+
+                    config.Events = new JwtBearerEvents()
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            if (context.Request.Query.ContainsKey("access_token"))
+                            {
+                                context.Token = context.Request.Query["access_token"];
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
+
+                    config.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ClockSkew = TimeSpan.Zero,
+                        ValidIssuer = Constants.Issuer,
+                        ValidAudience = Constants.Audiance,
+                        IssuerSigningKey = key,
+                    };
+                });
 
         }
 
@@ -74,6 +106,8 @@ namespace ITForumV3
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -22,7 +22,6 @@ namespace ITForumV3
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-
         
     }
 }
