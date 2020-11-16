@@ -24,7 +24,8 @@ namespace ITForumV3.Controllers
             var claims = new[]
            {
                 new Claim(JwtRegisteredClaimNames.Sub, "some_id"),
-                new Claim("granny", "cookie")
+                //new Claim("granny", "cookie")
+                new Claim("Role", "Admin")
             };
 
             var secretBytes = Encoding.UTF8.GetBytes(Constants.Secret);
@@ -38,7 +39,7 @@ namespace ITForumV3.Controllers
                 Constants.Audiance,
                 claims,
                 notBefore: DateTime.Now,
-                expires: DateTime.Now.AddHours(1),
+                expires: DateTime.Now.AddMinutes(10),
                 signingCredentials);
 
             var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);

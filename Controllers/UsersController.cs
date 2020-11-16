@@ -25,6 +25,7 @@ namespace ITForumV3.Controllers
         }
 
         // GET: api/Users
+        [Authorize(Policy = "RoleAdmin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUserItems()
         {
@@ -92,6 +93,7 @@ namespace ITForumV3.Controllers
         }
 
         // DELETE: api/Users/5
+        //[Authorize(Roles ="Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> DeleteUser(long id)
         {
