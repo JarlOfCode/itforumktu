@@ -48,8 +48,8 @@ namespace ITForumV3
             services.AddEntityFrameworkNpgsql().AddDbContext<UserContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
             services.AddEntityFrameworkNpgsql().AddDbContext<ThreadContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
 
-            services.AddAuthentication("OAuth")
-                .AddJwtBearer("OAuth", config =>
+            services.AddAuthentication("JWTAuth")
+                .AddJwtBearer("JWTAuth", config =>
                 {
                     var secretBytes = Encoding.UTF8.GetBytes(Constants.Secret);
                     var key = new SymmetricSecurityKey(secretBytes);
@@ -71,7 +71,7 @@ namespace ITForumV3
                     {
                         ClockSkew = TimeSpan.Zero,
                         ValidIssuer = Constants.Issuer,
-                        ValidAudience = Constants.Audiance,
+                        ValidAudience = Constants.Audience,
                         IssuerSigningKey = key,
                     };
                 });

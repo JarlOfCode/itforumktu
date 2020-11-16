@@ -36,7 +36,7 @@ namespace ITForumV3.Controllers
 
             var token = new JwtSecurityToken(
                 Constants.Issuer,
-                Constants.Audiance,
+                Constants.Audience,
                 claims,
                 notBefore: DateTime.Now,
                 expires: DateTime.Now.AddMinutes(10),
