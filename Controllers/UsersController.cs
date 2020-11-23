@@ -8,11 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using ITForumV3.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ITForumV3.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -25,7 +26,7 @@ namespace ITForumV3.Controllers
         }
 
         // GET: api/Users
-        [Authorize(Policy = "RoleAdmin")]
+        [Authorize(Policy = "RoleModAdmin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUserItems()
         {
@@ -33,6 +34,7 @@ namespace ITForumV3.Controllers
         }
 
         // GET: api/Users/5
+        [Authorize(Policy = "RoleModAdmin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(long id)
         {
@@ -93,7 +95,8 @@ namespace ITForumV3.Controllers
         }
 
         // DELETE: api/Users/5
-        //[Authorize(Roles ="Admin")]
+        //[Authorize(Roles ="Admin")]        
+        [Authorize(Policy = "RoleAdmin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> DeleteUser(long id)
         {
@@ -109,6 +112,42 @@ namespace ITForumV3.Controllers
             return user;
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult<IEnumerable<User>>> Login([FromBody]Login login)
+        {
+            //api/users/login
+            var user = await _context.user.Where(a => a.UserName == login.Username && a.PassWord == login.Password).ToListAsync();
+            if( user.Count == 0)
+            {
+                return NotFound();
+            }
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.First().Id.ToString()),
+                //new Claim("granny", "cookie")
+                new Claim("Role", user.First().Role),
+                new Claim("Username",  user.First().UserName)
+            };
+
+            var secretBytes = System.Text.Encoding.UTF8.GetBytes(Constants.Secret);
+            var key = new SymmetricSecurityKey(secretBytes);
+            var algorithm = SecurityAlgorithms.HmacSha256;
+
+            var signingCredentials = new SigningCredentials(key, algorithm);
+
+            var token = new JwtSecurityToken(
+                Constants.Issuer,
+                Constants.Audience,
+                claims,
+                notBefore: DateTime.Now,
+                expires: DateTime.Now.AddMinutes(10),
+                signingCredentials);
+
+            var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return Ok(new { access_token = tokenJson });
+        }
         private bool UserExists(long id)
         {
             return _context.user.Any(e => e.Id == id);

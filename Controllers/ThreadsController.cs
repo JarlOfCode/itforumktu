@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ITForumV3.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ITForumV3.Controllers
 {
@@ -59,6 +60,7 @@ namespace ITForumV3.Controllers
         // PUT: api/Threads/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize(Policy = "RoleAdmin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutThread(long id, Thread thread)
         {
@@ -101,6 +103,7 @@ namespace ITForumV3.Controllers
         }
 
         // DELETE: api/Threads/5
+        [Authorize(Policy = "RoleAdmin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Thread>> DeleteThread(long id)
         {

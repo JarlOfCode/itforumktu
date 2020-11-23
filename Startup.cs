@@ -79,6 +79,9 @@ namespace ITForumV3
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RoleAdmin", policy => policy.RequireClaim("Role", "Admin"));
+                options.AddPolicy("RoleUser", policy => policy.RequireClaim("Role", "user"));
+                options.AddPolicy("RoleMod", policy => policy.RequireClaim("Role", "Moderator"));
+                options.AddPolicy("RoleModAdmin", policy => policy.RequireClaim("Role", "Moderator","Admin"));
             });
 
         }
